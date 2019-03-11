@@ -2,6 +2,7 @@
 
 Data realted scritps:
 - ML algorithms
+- Metrics
 - Text preprocessing
 - NLP Tools
 - Twitter API scripts
