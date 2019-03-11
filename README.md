@@ -1,8 +1,9 @@
 #### DATA TOOLKIT
 
 Data realted scritps:
-- ML Algorithms
-- NLP data preprocessing
+- ML algorithms
+- Text preprocessing
+- NLP Tools
 - Twitter API scripts
 - More
 
