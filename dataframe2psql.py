@@ -7,7 +7,7 @@ import pandas as pd
 def df2psql_table(df, credencials):
 
 	# Setup psql table schema out of df table
-	table_open = 'CREATE TABLE {} (id serial PRIMARY KEY, '.format( credencials['table_name']
+	table_open = 'CREATE TABLE {} (id serial PRIMARY KEY, '.format( credencials['table_name'])
 	table_parts = []
 	for column_name in df.columns:
 		if   df[column_name].dtype == 'object':  dtype = 'text'
