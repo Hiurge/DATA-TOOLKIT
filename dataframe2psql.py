@@ -37,7 +37,7 @@ def dataframe2psql(df, credencials):
 
 # Example:
 #df = pd.read_csv('PDF_CSV.csv')
-#credencials = {'dbname':'name_your_db', 'user':'name_one_user', 'table_name':'name_your_stuff_storage'}
+#credencials = {'dbname':'your_db_name', 'user':'your_db_user_name', 'table_name':'name_your_stuff_storage'}
 #dataframe2psql(df, credencials)
 
 # To expand db use of credencials (fg. password), edit line 29.
