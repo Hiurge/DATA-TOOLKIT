@@ -1,13 +1,12 @@
 import psycopg2
 import psycopg2.extras
-import pandas as pd 
-import os
+import pandas as pd
 
 
 # Move dataframe to psql as a table
 def dataframe2psql(df, credencials):
 
-	# Setup psql table schema out of df  
+	# Setup psql table schema out of df
 	table_parts = ['(id serial PRIMARY KEY']
 	for column_name in df.columns:
 		if df[column_name].dtype ==   'object':  dtype = 'text'
@@ -18,13 +17,13 @@ def dataframe2psql(df, credencials):
 
 	# df values into psql insert format
 	columns = ','.join(['"{}"'.format(column) for column in list(df)])
-	values = "VALUES({})".format(",".join(["%s" for _ in list(df)])) 
+	values = "VALUES({})".format(",".join(["%s" for _ in list(df)]))
 	insert = "INSERT INTO {} ({}) {}".format(credencials['table_name'], columns, values)
 	
 	# PSQL connection
 	conn = psycopg2.connect("dbname={} user={}".format(credencials['dbname'], credencials['user']))
 	cur = conn.cursor()
-
+	
 	# Load schema
 	cur.execute("CREATE TABLE {} {}".format(credencials['table_name'], table_schema))
 
@@ -35,8 +34,9 @@ def dataframe2psql(df, credencials):
 	conn.close()
 	cur.close()
 
+
 # Example:
-#df = pd.read_csv('your.csv') # or # df = your_dataframe 
+#df = pd.read_csv('your.csv') # or # df = your_dataframe
 #credencials = {'dbname':'your_db_name', 'user':'your_db_user_name', 'table_name':'name_your_stuff_storage'}
 #dataframe2psql(df, credencials)
 
