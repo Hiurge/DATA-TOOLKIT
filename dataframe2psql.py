@@ -36,7 +36,7 @@ def dataframe2psql(df, credencials):
 	cur.close()
 
 # Example:
-#df = pd.read_csv('your.csv')
+#df = pd.read_csv('your.csv') # or # df = your_dataframe 
 #credencials = {'dbname':'your_db_name', 'user':'your_db_user_name', 'table_name':'name_your_stuff_storage'}
 #dataframe2psql(df, credencials)
 
