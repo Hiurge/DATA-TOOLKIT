@@ -9,7 +9,7 @@ def df2psql_table(df, credencials):
 	# Setup psql table schema out of df
 	table_parts = ['(id serial PRIMARY KEY']
 	for column_name in df.columns:
-		if df[column_name].dtype ==   'object':  dtype = 'text'
+		if   df[column_name].dtype == 'object':  dtype = 'text'
 		elif df[column_name].dtype == 'int64':   dtype = 'integer'
 		elif df[column_name].dtype == 'float64': dtype = 'float'
 		table_parts.append( '"{}" {}'.format(column_name, dtype))
