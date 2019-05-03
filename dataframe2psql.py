@@ -4,7 +4,7 @@ import pandas as pd
 
 
 # Move dataframe to psql as a table
-def dataframe2psql(df, credencials):
+def df2psql_table(df, credencials):
 
 	# Setup psql table schema out of df
 	table_parts = ['(id serial PRIMARY KEY']
@@ -38,6 +38,6 @@ def dataframe2psql(df, credencials):
 # Example:
 #df = pd.read_csv('your.csv') # or # df = your_dataframe
 #credencials = {'dbname':'your_db_name', 'user':'your_db_user_name', 'table_name':'name_your_stuff_storage'}
-#dataframe2psql(df, credencials)
+#df2psql_table(df, credencials)
 
 # To expand db use of credencials (fg. password), edit line 24.
