@@ -1,0 +1,43 @@
+import psycopg2
+import psycopg2.extras
+import pandas as pd 
+import os
+
+
+# Move dataframe to psql as a table
+def dataframe2psql(df, credencials):
+
+	# Setup psql table schema out of df  
+	table_parts = ['(id serial PRIMARY KEY']
+	for column_name in df.columns:
+		if df[column_name].dtype ==   'object':  dtype = 'text'
+		elif df[column_name].dtype == 'int64':   dtype = 'integer'
+		elif df[column_name].dtype == 'float64': dtype = 'float'
+		table_parts.append( '"{}" {}'.format(column_name, dtype))
+	table_schema = ', '.join(table_parts) + ');'
+
+	# df values into psql insert format
+	columns = ','.join(['"{}"'.format(column) for column in list(df)])
+	values = "VALUES({})".format(",".join(["%s" for _ in list(df)])) 
+	insert = "INSERT INTO {} ({}) {}".format(credencials['table_name'], columns, values)
+	
+	# PSQL connection
+	conn = psycopg2.connect("dbname={} user={}".format(credencials['dbname'], credencials['user']))
+	cur = conn.cursor()
+
+	# Load schema
+	cur.execute("CREATE TABLE {} {}".format(credencials['table_name'], table_schema))
+
+	# Load values into schema
+	psycopg2.extras.execute_batch(cur, insert, df.values)
+
+	conn.commit()
+	conn.close()
+	cur.close()
+
+# Example:
+#df = pd.read_csv('PDF_CSV.csv')
+#credencials = {'dbname':'name_your_db', 'user':'name_one_user', 'table_name':'name_your_stuff_storage'}
+#dataframe2psql(df, credencials)
+
+# To expand db use of credencials (fg. password), edit line 29.
