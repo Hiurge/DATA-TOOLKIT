@@ -17,15 +17,15 @@ def dataframe2psql(df, credencials):
 
 	# df values into psql insert format
 	columns = ','.join(['"{}"'.format(column) for column in list(df)])
-	values = "VALUES({})".format(",".join(["%s" for _ in list(df)]))
-	insert = "INSERT INTO {} ({}) {}".format(credencials['table_name'], columns, values)
+	values = 'VALUES({})'.format(','.join(["%s" for _ in list(df)]))
+	insert = 'INSERT INTO {} ({}) {}'.format(credencials['table_name'], columns, values)
 	
 	# PSQL connection
-	conn = psycopg2.connect("dbname={} user={}".format(credencials['dbname'], credencials['user']))
+	conn = psycopg2.connect('dbname={} user={}'.format(credencials['dbname'], credencials['user']))
 	cur = conn.cursor()
 	
 	# Load schema
-	cur.execute("CREATE TABLE {} {}".format(credencials['table_name'], table_schema))
+	cur.execute('CREATE TABLE {} {}'.format(credencials['table_name'], table_schema))
 
 	# Load values into schema
 	psycopg2.extras.execute_batch(cur, insert, df.values)
@@ -40,4 +40,4 @@ def dataframe2psql(df, credencials):
 #credencials = {'dbname':'your_db_name', 'user':'your_db_user_name', 'table_name':'name_your_stuff_storage'}
 #dataframe2psql(df, credencials)
 
-# To expand db use of credencials (fg. password), edit line 29.
+# To expand db use of credencials (fg. password), edit line 24.
