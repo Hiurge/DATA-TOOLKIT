@@ -6,15 +6,16 @@ import pandas as pd
 # Move dataframe to psql as a table
 def df2psql_table(df, credencials):
 
-	# Setup psql table schema out of df
+	# Setup psql table schema out of df table
 	table_parts = ['(id serial PRIMARY KEY']
 	for column_name in df.columns:
 		if   df[column_name].dtype == 'object':  dtype = 'text'
 		elif df[column_name].dtype == 'int64':   dtype = 'integer'
 		elif df[column_name].dtype == 'float64': dtype = 'float'
 		table_parts.append( '"{}" {}'.format(column_name, dtype))
-	table_schema = ', '.join(table_parts) + ');'
-
+	table_schema = 'CREATE TABLE {} '.format(credencials['table_name'])
+	table_schema += ', '.join(table_parts) + ');'
+				    
 	# df values into psql insert format
 	columns = ', '.join(['"{}"'.format(column) for column in list(df)])
 	values = 'VALUES({})'.format(','.join(["%s" for _ in list(df)]))
@@ -25,7 +26,7 @@ def df2psql_table(df, credencials):
 	cur = conn.cursor()
 	
 	# Load schema
-	cur.execute('CREATE TABLE {} {}'.format(credencials['table_name'], table_schema))
+	cur.execute(table_schema)
 
 	# Load values into schema
 	psycopg2.extras.execute_batch(cur, insert, df.values)
