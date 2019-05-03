@@ -16,7 +16,7 @@ def df2psql_table(df, credencials):
 	table_schema = ', '.join(table_parts) + ');'
 
 	# df values into psql insert format
-	columns = ','.join(['"{}"'.format(column) for column in list(df)])
+	columns = ', '.join(['"{}"'.format(column) for column in list(df)])
 	values = 'VALUES({})'.format(','.join(["%s" for _ in list(df)]))
 	insert = 'INSERT INTO {} ({}) {}'.format(credencials['table_name'], columns, values)
 	
